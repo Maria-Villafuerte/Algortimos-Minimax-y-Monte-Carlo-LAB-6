@@ -47,3 +47,10 @@ class TicTacToe:
             elif line.count('O') == 2 and line.count(' ') == 1:
                 score -= 10
         return score
+    
+    def print_board(self):
+        """Imprime el tablero en formato legible"""
+        for i in range(0, 9, 3):
+            print(f"{self.board[i]} | {self.board[i+1]} | {self.board[i+2]}")
+            if i < 6:
+                print("-" * 9)
