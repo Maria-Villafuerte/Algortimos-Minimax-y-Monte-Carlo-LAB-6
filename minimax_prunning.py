@@ -1,5 +1,6 @@
 import copy
 import time
+import random
 
 from tictactoe import TicTacToe
 
@@ -25,7 +26,7 @@ def minimax_alpha_beta(game, depth, maximizing, k, alpha, beta, node_counter):
     if game.is_terminal() or depth == k:
         return game.utility() if game.is_terminal() else game.heuristic(), None
 
-    best_move = None
+    best_moves = []
     
     if maximizing:
         # Jugador maximizador (X)
@@ -37,8 +38,9 @@ def minimax_alpha_beta(game, depth, maximizing, k, alpha, beta, node_counter):
             
             if eval > max_eval:
                 max_eval = eval
-                best_move = move
-                
+                best_moves.append(move)
+            elif eval == max_eval:
+                best_moves.append(move)
             # Actualizar alpha
             alpha = max(alpha, eval)
             
@@ -46,7 +48,7 @@ def minimax_alpha_beta(game, depth, maximizing, k, alpha, beta, node_counter):
             if alpha >= beta:
                 break
                 
-        return max_eval, best_move
+        return max_eval, random.choice(best_moves)
     else:
         # Jugador minimizador (O)
         min_eval = float('inf')
@@ -57,8 +59,9 @@ def minimax_alpha_beta(game, depth, maximizing, k, alpha, beta, node_counter):
             
             if eval < min_eval:
                 min_eval = eval
-                best_move = move
-                
+                best_moves.append(move)
+            elif eval == min_eval:
+                best_moves.append(move)
             # Actualizar beta
             beta = min(beta, eval)
             
@@ -66,7 +69,7 @@ def minimax_alpha_beta(game, depth, maximizing, k, alpha, beta, node_counter):
             if beta <= alpha:
                 break
                 
-        return min_eval, best_move
+        return min_eval, random.choice(best_moves)
 
 def get_best_move_alpha_beta(game, player, k):
     """
@@ -198,7 +201,7 @@ def run_experiments(n_experiments=1000, k=2, startPlayer = 'X'):
 print("\n\nIniciando experimentos...")
 
 # Ajuste de parámetros
-profundidad = 1
+profundidad = 3
 startPlayer = 'O'
 
 # Ejecutar experimentos y obtener estadísticas
